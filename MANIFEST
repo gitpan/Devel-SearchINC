@@ -1,7 +1,10 @@
 Changes
-SearchINC.pm
-MANIFEST
+lib/Devel/SearchINC.pm
 Makefile.PL
+MANIFEST
 README
-test.pl
-testlib/A/B/B.pm
+t/1.t
+t/lib/A/B/B.pm
+t/lib/C/D/lib/C/D/F/G.pm
+t/lib/C/D/lib/C/D/F.pm
+t/lib/C/D/lib/E.pm

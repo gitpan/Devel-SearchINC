@@ -1,12 +1,12 @@
+use 5.006;
 use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'		=> 'Devel::SearchINC',
-    'VERSION_FROM'	=> 'SearchINC.pm', # finds $VERSION
-    'PREREQ_PM'		=> {}, # e.g., Module::Name => 1.1
+    'VERSION_FROM'	=> 'lib/Devel/SearchINC.pm',
+    'PREREQ_PM'		=> {
+    	Test::More => 0.45,
+    },
     dist                => {
-        # don't ask about existing .tar.gz files
         COMPRESS => 'gzip --force --best'
     },
 );

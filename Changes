@@ -1,5 +1,19 @@
 Revision history for Perl extension Devel::SearchINC.
 
+1.2   Sun Sep  1 12:06:22 CEST 2002
+	- tests now use Test::More and have been reorganized
+	- added a debugging option and verbose debugging output
+	- previously it tried to open last guess regardless of whether
+	  the search loop was ended because there were no more paths to
+	  search or because it found a file. So I introduced a $found
+	  variable that takes care of that.
+
+0.03  Thu Oct 11 09:46:10 CEST 2001
+	- added PERL5OPT documentation (thanks Michael Graham)
+
+0.02  Sat May 19 13:39:31 2001
+	- can now also find modules in lib/ subdirectories
+
 0.01  Thu Mar 15 14:38:37 2001
 	- original version; created by h2xs 1.20 with options
 		-XA -n Devel::SearchINC
