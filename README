@@ -1,0 +1,52 @@
+NAME
+    Devel::SearchINC - loading Perl modules from their development dirs
+
+SYNOPSIS
+      use Devel::SearchINC '/my/dev/dir';
+      use My::Brand::New::Module;
+
+DESCRIPTION
+    When developing a new module, I always start with
+
+        h2xs -XA -n My::Module
+
+    This creates a directory with a useful skeleton for the module's
+    distribution. The directory structure is such, however, that you have to
+    install the module first (with `make install') before you can use it in
+    another program or module. For example, bringing in a module like so:
+
+        use My::Module;
+
+    requires the module to be somewhere in a path listed in `@INC', and the
+    relative path is expected to be `My/Module.pm'. However, `h2xs' creates
+    a structure where the module ends up in `My/Module/Module.pm'.
+
+    This module tries to compensate for that. The idea is that you `use()'
+    it right at the beginning of your program so it can modify `@INC' to
+    look for modules in relative paths of the special structure mentioned
+    above, starting with directories specified along with the `use()'
+    statement (i.e. the arguments passed to this module's `import()').
+
+    This is useful because with this module you can test your programs using
+    your newly developed modules without having to install them just so you
+    can use them. This is especially advantageous when you consider working
+    on many new modules at the same time.
+
+TODO
+    Test on different platforms and Perl versions.
+BUGS
+    None known so far. If you find any bugs or oddities, please do inform
+    the author.
+
+AUTHOR
+    Marcel Grünauer, <marcel@codewerk.com>
+
+COPYRIGHT
+    Copyright 2001 Marcel Grünauer. All rights reserved.
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+SEE ALSO
+    perl(1).
+
