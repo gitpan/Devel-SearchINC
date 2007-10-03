@@ -1,12 +1,9 @@
-use 5.006;
-use ExtUtils::MakeMaker;
-WriteMakefile(
-    'NAME'		=> 'Devel::SearchINC',
-    'VERSION_FROM'	=> 'lib/Devel/SearchINC.pm',
-    'PREREQ_PM'		=> {
-    	Test::More => 0.45,
-    },
-    dist                => {
-        COMPRESS => 'gzip --force --best'
-    },
-);
+use inc::Module::Install;
+name 'Devel-SearchINC';
+all_from 'lib/Devel/SearchINC.pm';
+
+build_requires 'Test::More';
+
+use_standard_tests(without => 'pod_coverage');
+auto_include;
+WriteAll;

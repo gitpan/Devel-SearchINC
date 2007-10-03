@@ -1,92 +1,27 @@
-NAME
-    Devel::SearchINC - loading Perl modules from their development dirs
-
-SYNOPSIS
-      use Devel::SearchINC '/my/dev/dir';
-      use My::Brand::New::Module;
-
-DESCRIPTION
-    When developing a new module, I always start with
-
-        h2xs -XA -n My::Module
-
-    This creates a directory with a useful skeleton for the module's
-    distribution. The directory structure is such, however, that you have to
-    install the module first (with "make install") before you can use it in
-    another program or module. For example, bringing in a module like so:
-
-        use My::Module;
-
-    requires the module to be somewhere in a path listed in @INC, and the
-    relative path is expected to be "My/Module.pm". However, "h2xs" creates
-    a structure where the module ends up in "My/Module/Module.pm".
-
-    This module tries to compensate for that. The idea is that you "use()"
-    it right at the beginning of your program so it can modify @INC to look
-    for modules in relative paths of the special structure mentioned above,
-    starting with directories specified along with the "use()" statement
-    (i.e. the arguments passed to this module's "import()").
-
-    This is useful because with this module you can test your programs using
-    your newly developed modules without having to install them just so you
-    can use them. This is especially advantageous when you consider working
-    on many new modules at the same time.
-
-    If our fictional module isn't found in "My/Module/Module.pm", we try to
-    find it in "My/Module/lib/My/Module.pm", which might be the case if it's
-    part of a larger family of modules that takes advantage of
-    "ExtUtils::MakeMaker"'s "PMLIBDIRS" mechanism.
-
-    To automatically make your development modules available to all your
-    scripts, you can place the following in your ".bashrc" (or your shell
-    initialization file of choice):
-
-      export PERL5OPT=-MDevel::SearchINC=/my/dev/dir
-
-    Since the syntax for this is buried in the perlrun manpage, you might
-    consider adding this example to the "Devel::SearchINC" docs.
-
-    Note that there is a small limitation for the "PERL5OPT" approach:
-    development modules can't be loaded via "-M" on the perl command line.
-    So the following won't work:
-
-      $ export PERL5OPT=-MDevel::SearchINC=/my/dev/dir
-      $ perl -MMy::Brand::New::Module -e'print "hello world\n"'
-
-    This is probably because "PERL5OPT" options are appended to the perl
-    command line, and processed after the actual command line options.
-
-    Also, the "PERL5OPT" variable is ignored when Taint checks are enabled.
-
-TODO
-    Test on different platforms and Perl versions.
-
-BUGS
-    None known so far. If you find any bugs or oddities, please do inform
-    the author.
+This is the Perl module Devel::SearchINC.
 
 INSTALLATION
-    See perlmodinstall for information and options on installing Perl
-    modules.
 
-AVAILABILITY
-    The latest version of this module is available from the Comprehensive
-    Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
-    CPAN site near you. Or see
-    <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+Devel::SearchINC installation is straightforward. If your CPAN shell is set up,
+you should just be able to do
 
-VERSION
-    This document describes version 1.2 of "Devel::SearchINC".
+    % cpan Devel::SearchINC
 
-AUTHOR
-    Marcel Grünauer <marcel@cpan.org>
+Download it, unpack it, then build it as per the usual:
 
-COPYRIGHT
-    Copyright 2001-2002 Marcel Grünauer. All rights reserved.
+    % perl Makefile.PL
+    % make && make test
 
-    This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself.
+Then install it:
 
-SEE ALSO
-    perl(1).
+    % make install
 
+DOCUMENTATION
+
+Devel::SearchINC documentation is available as in POD. So you can do:
+
+    % perldoc Devel::SearchINC
+
+to read the documentation online with your favorite pager.
+
+Marcel Gruenauer
