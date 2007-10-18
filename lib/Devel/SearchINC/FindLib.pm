@@ -5,7 +5,7 @@ use warnings;
 use File::Find;
 
 
-our $VERSION = '1.31';
+our $VERSION = '1.32';
 
 
 sub import {
