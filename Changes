@@ -1,69 +1,63 @@
----
-global:
-  name: Devel-SearchINC
-releases:
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - Converted Changes file to YAML style
-      - '.shipit: added Twitter step'
-      - 'Makefile.PL: added auto_install() and process_templates()'
-      - 'lib/*: converted to template'
-      - updated MANIFEST
-      - Devel::SearchINC::FindLib now also skips skel/
-      - added t/perlcriticrc
-      - updated MANIFEST
-      - moved generated documentation of interited methods to after documentation of this class' methods so the manpage is more readable
-      - Devel::SearchINC::FindLib can now handle semicolon-separated paths as well
-      - '.shipit: new svk.tagpattern'
-      - 'Devel::SearchINC::FindLib: also deal with blib; ignore _build'
-    date: 2008-05-17T10:17:24Z
-    tags:
-      - NEWFEATURE
-    version: 1.33
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - fixed version requirement of Test::More
-    date: 2007-10-18T10:09:39+02:00
-    tags: []
-    version: 1.32
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - changed the $VERSION of all modules to '1.31'.
-      - switched back to Makefile.PL and to Module::AutoInstall
-      - uses Module::Install::StandardTests
-    date: 2007-10-03T17:27:25+02:00
-    tags: []
-    version: 1.31
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - added Devel::SearchINC::FindLib
-      - switched to Build.PL
-    date: 2005-02-17T23:53:39+01:00
-    tags: []
-    version: 1.03
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - tests now use Test::More and have been reorganized
-      - added a debugging option and verbose debugging output
-      - previously it tried to open last guess regardless of whether the search loop was ended because there were no more paths to search or because it found a file. So I introduced a $found variable that takes care of that.
-    date: 2002-09-01T12:06:22+02:00
-    tags: []
-    version: 1.02
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - added PERL5OPT documentation (thanks Michael Graham)
-    date: 2001-10-11T09:46:10+02:00
-    tags: []
-    version: 0.03
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - can now also find modules in lib/ subdirectories
-    date: 2001-05-19T13:39:31+01:00
-    tags: []
-    version: 0.02
-  - author: 'Marcel Gruenauer <marcel@cpan.org>'
-    changes:
-      - original version
-    date: 2001-03-15T14:38:37+01:00
-    tags: []
-    version: 0.01
+Revision history for Perl extension Devel-SearchINC
+
+1.35 Thu Oct 30 16:32:55 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - If a module is found, set its entry in %INC to avoid the
+       '/loader/0x1234567/Foo/Bar.pm' effect, so it works nicely with
+       Devel::NYTProf
+
+1.34  Thu Jul 25 15:27:43 CEST 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - Changed dist style and Changes back to standard. People didn't like it -
+       the nail that sticks out gets hammered down.
+     - Added standard test files; this will also help with CPANTS.
+     - Devel::SearchINC now uses File::Find::find() like
+       Devel::SearchINC::FindLib does, and caches the result during the first
+       pass. So this is more flexible than the previous version and allows you
+       to use Devel::SearchINC with complex development directory setups,
+       without the disadvantage of Devel::SearchINC::FindLib cluttering up your
+       @INC.
+
+1.33  Thu, 29 May 2008 12:04:28 -0000 (Marcel Gruenauer <marcel@cpan.org>)
+     - Converted Changes file to YAML style
+     - .shipit: added Twitter step
+     - Makefile.PL: added auto_install() and process_templates()
+     - lib/*: converted to template
+     - updated MANIFEST
+     - Devel::SearchINC::FindLib now also skips skel/
+     - added t/perlcriticrc
+     - updated MANIFEST
+     - moved generated documentation of interited methods to after
+       documentation of this class' methods so the manpage is more readable
+     - Devel::SearchINC::FindLib can now handle semicolon-separated paths as
+       well
+     - .shipit: new svk.tagpattern
+     - Devel::SearchINC::FindLib: also deal with blib; ignore _build
+     - .shipit: fixed svk.tagpattern
+     - tags: NEWFEATURE
+
+1.32  Thu, 18 Oct 2007 10:09:39 +0200 (Marcel Gruenauer <marcel@cpan.org>)
+     - fixed version requirement of Test::More
+
+1.31  Wed, 03 Oct 2007 17:27:25 +0200 (Marcel Gruenauer <marcel@cpan.org>)
+     - changed the $VERSION of all modules to '1.31'.
+     - switched back to Makefile.PL and to Module::AutoInstall
+     - uses Module::Install::StandardTests
+
+1.03  Thu, 17 Feb 2005 23:53:39 +0100 (Marcel Gruenauer <marcel@cpan.org>)
+     - added Devel::SearchINC::FindLib
+     - switched to Build.PL
+
+1.02  Sun, 01 Sep 2002 12:06:22 +0200 (Marcel Gruenauer <marcel@cpan.org>)
+     - tests now use Test::More and have been reorganized
+     - added a debugging option and verbose debugging output
+     - previously it tried to open last guess regardless of whether the search
+       loop was ended because there were no more paths to search or because it
+       found a file. So I introduced a $found variable that takes care of that.
+
+0.03  Thu, 11 Oct 2001 09:46:10 +0200 (Marcel Gruenauer <marcel@cpan.org>)
+     - added PERL5OPT documentation (thanks Michael Graham)
+
+0.02  Sat, 19 May 2001 13:39:31 +0100 (Marcel Gruenauer <marcel@cpan.org>)
+     - can now also find modules in lib/ subdirectories
+
+0.01  Thu, 15 Mar 2001 14:38:37 +0100 (Marcel Gruenauer <marcel@cpan.org>)
+     - original version

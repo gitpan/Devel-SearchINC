@@ -3,73 +3,55 @@ package Devel::SearchINC;
 use 5.006;
 use strict;
 use warnings;
+use Data::Dumper;
+use File::Find;
 
 
-our $VERSION = '1.33';
+our $VERSION = '1.35';
+
+
+sub build_cache {
+    our %cache;
+
+    find(sub {
+        if (-d && /^t|CVS|\.svn|skel|_build$/) {
+            $File::Find::prune = 1;
+            return;
+        }
+
+        return unless -f && /\.pm$/;
+
+        if ($File::Find::name =~ m!.*/(?:lib|blib/(?:lib|arch))/(.*)!) {
+            $cache{$1} ||= $File::Find::name;
+
+        }
+    }, our @PATHS);
+
+    warn "cache:\n", Dumper \%cache if our $DEBUG;
+}
 
 
 BEGIN {
     unshift @INC, sub {
         my ($self, $file) = @_;
-        my ($guess, $found);
 
+        our %cache;
         our $DEBUG;
-        printf "%s: looking for <%s>\n", __PACKAGE__, $file if $DEBUG;
 
-        for my $path (our @paths) {
-
-            printf "%s: path = <%s>\n", __PACKAGE__, $path
+        unless (exists $cache{$file}) {
+            printf "%s: cache miss <%s>\n", __PACKAGE__, $file
                 if $DEBUG;
-
-            # A/B.pm might be found in A/B/B.pm
-            ($guess = "$path/$file") =~
-                s!(.*)/(.*?)\.pm$!$1/$2/$2.pm!;
-
-            printf "%s: guess = <%s>\n", __PACKAGE__, $guess
-                if $DEBUG;
-
-            if (-f $guess) {
-                $found = $guess;
-                last;
-            }
-
-            # ... or maybe in A/B/lib/A/B.pm
-            # or any of the intermediary directories.
-            # After all, it could be that A is the family
-            # of modules, so it would be found in A/lib/A/B.pm.
-
-            (my $module = $file) =~ s/\.pm$//;
-            my $modpath = '';
-            for my $part (split /\// => $module) {
-                $modpath .= '/' if $modpath;
-                $modpath .= $part;
-                $guess = "$path/$modpath/lib/$file";
-
-                printf "%s: guess = <%s>\n", __PACKAGE__, $guess
-                    if $DEBUG;
-
-                if (-f $guess) {
-                    $found = $guess;
-                    last;
-                }
-            }
-        }
-
-        # decline if we haven't found any files
-        unless (defined $found) {
-            printf "%s: nothing found, declining\n", __PACKAGE__
-                if $DEBUG;
-
             return;
         }
 
-        printf "%s: found <%s>\n", __PACKAGE__, $found if $DEBUG;
+        printf "%s: found <%s>\n", __PACKAGE__, $cache{$file} if $DEBUG;
 
-        if (open(my $fh, '<', $found)) {
+        if (open(my $fh, '<', $cache{$file})) {
+            $INC{$file} = $cache{$file};
             return $fh;
         }
 
-        printf "%s: can't open <%s>, declining\n", __PACKAGE__, $found
+        printf "%s: can't open <%s>, declining\n", __PACKAGE__, $cache{$file}
             if $DEBUG;
 
         return;
@@ -79,20 +61,35 @@ BEGIN {
 sub import {
     my $pkg = shift;
     our $DEBUG = 0;
-    for my $path (@_) {
+
+    my @p = 
+        map { s/^~/$ENV{HOME}/; $_ }
+        map { split /\s*;\s*/ }
+        @_;
+
+    our @PATHS;
+    for my $path (@p) {
         if ($path eq ':debug') {
             $DEBUG = 1;
             next;
-            };
-        push our @paths => $path;
+        };
+        push @PATHS => $path;
     }
+
+    # Build the module cache anew after each import; this is so that if you
+    # use PERL5OPT=-MDevel::SearchINC=... and then a program loads it
+    # separately with "use Devel::SearchINC '...'" paths from both occasions
+    # get respected.
+
+    build_cache();
+
+    warn "paths:\n", Dumper \@PATHS if $DEBUG;
 }
+
 
 1;
 
 __END__
-
-
 
 =head1 NAME
 
@@ -105,13 +102,9 @@ Devel::SearchINC - loading Perl modules from their development dirs
 
 =head1 DESCRIPTION
 
-When developing a new module, I always start with
-
-    h2xs -XA -n My::Module
-
-This creates a directory with a useful skeleton for the module's
-distribution. The directory structure is such, however, that you have
-to install the module first (with C<make install>) before you can use it
+When developing a new module, I always start with a standard skeleton
+distribution directory. The directory structure is such, however, that you
+have to install the module first (with C<make install>) before you can use it
 in another program or module. For example, bringing in a module like so:
 
     use My::Module;
@@ -131,19 +124,20 @@ your newly developed modules without having to install them just so you
 can use them. This is especially advantageous when you consider working
 on many new modules at the same time.
 
-If our fictional module isn't found in C<My/Module/Module.pm>, we
-try to find it in C<My/Module/lib/My/Module.pm>, which might be
-the case if it's part of a larger family of modules that takes
-advantage of C<ExtUtils::MakeMaker>'s C<PMLIBDIRS> mechanism.
-
 To automatically make your development modules available to all
 your scripts, you can place the following in your C<.bashrc> (or
 your shell initialization file of choice):
 
   export PERL5OPT=-MDevel::SearchINC=/my/dev/dir
 
-Since the syntax for this is buried in the perlrun manpage, you
-might consider adding this example to the C<Devel::SearchINC> docs.
+Tilde expansion is also performed.
+
+When this module is first run, that is, when perl first consults C<@INC>, all
+candidate files are remembered in a cache. A candidate file is one whose name
+ends in C<.pm>, is not within a directory called C<t>, C<CVS>, C<.svn>,
+C<skel> or C<_build>, and is within a directory called C<lib>,
+C<blib/lib> or C<blib/arch>. This is a long-winded way of saying that it tries
+to find your perl module files within standard development directories.
 
 Note that there is a small limitation for the C<PERL5OPT> approach:
 development modules can't be loaded via C<-M> on the perl command
@@ -169,6 +163,8 @@ this module:
 or
 
   perl -MDevel::SearchINC=/my/first/dir,/my/second/dir
+
+You can also use semicolons instead of commas as delimiters for directories.
 
 C<perlrun> details the syntax for specifying multiple arguments for
 modules brought in with the C<-M> switch.

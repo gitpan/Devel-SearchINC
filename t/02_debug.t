@@ -2,7 +2,7 @@ use Test::More tests => 3;
 
 BEGIN {
     use_ok('Devel::SearchINC', 't/lib', ':debug');
-    use_ok('A::B');
+    use_ok('C::D::F');
 }
 
-is(A::B::answer(), 42, 'A::B::answer is 42');
+is(C::D::F::answer(), 42, 'C::D::F::answer is 42');
