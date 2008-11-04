@@ -1,6 +1,11 @@
 Revision history for Perl extension Devel-SearchINC
 
-1.35 Thu Oct 30 16:32:55 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+1.36  Tue Nov  4 12:49:31 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
+     - build_cache() just returns if no paths were set to avoid a warning from
+       File::Find::find(); had CPAN tester failures because of that; my own
+       tests worked because I used Devel::SearchINC in $PERL5OPT...
+
+1.35  Thu Oct 30 16:32:55 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
      - If a module is found, set its entry in %INC to avoid the
        '/loader/0x1234567/Foo/Bar.pm' effect, so it works nicely with
        Devel::NYTProf

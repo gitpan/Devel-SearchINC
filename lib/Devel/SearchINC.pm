@@ -7,11 +7,14 @@ use Data::Dumper;
 use File::Find;
 
 
-our $VERSION = '1.35';
+our $VERSION = '1.36';
 
 
 sub build_cache {
     our %cache;
+
+    our @PATHS;
+    return unless @PATHS;
 
     find(sub {
         if (-d && /^t|CVS|\.svn|skel|_build$/) {
@@ -25,7 +28,7 @@ sub build_cache {
             $cache{$1} ||= $File::Find::name;
 
         }
-    }, our @PATHS);
+    }, @PATHS);
 
     warn "cache:\n", Dumper \%cache if our $DEBUG;
 }
