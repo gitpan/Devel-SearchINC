@@ -23,6 +23,7 @@ t/00_perl_critic.t
 t/00_pod.t
 t/01_basic.t
 t/02_debug.t
+t/03_taint.t
 t/lib/C/D/lib/C/D/F.pm
 t/lib/C/D/lib/C/D/F/G.pm
 t/lib/C/D/lib/E.pm

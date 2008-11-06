@@ -7,7 +7,7 @@ use Data::Dumper;
 use File::Find;
 
 
-our $VERSION = '1.36';
+our $VERSION = '1.37';
 
 
 sub build_cache {
@@ -16,7 +16,14 @@ sub build_cache {
     our @PATHS;
     return unless @PATHS;
 
-    find(sub {
+    # Programs run with -T cause a "Insecure dependency in chdir while running
+    # with -T switch" warning, so untaint directory names.
+
+    find({
+        untaint      => 1,
+        untaint_skip => 1,
+        wanted       => sub {
+
         if (-d && /^t|CVS|\.svn|skel|_build$/) {
             $File::Find::prune = 1;
             return;
@@ -28,7 +35,7 @@ sub build_cache {
             $cache{$1} ||= $File::Find::name;
 
         }
-    }, @PATHS);
+    }}, @PATHS);
 
     warn "cache:\n", Dumper \%cache if our $DEBUG;
 }
