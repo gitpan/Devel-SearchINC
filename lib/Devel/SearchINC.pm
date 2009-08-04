@@ -7,7 +7,7 @@ use Data::Dumper;
 use File::Find;
 
 
-our $VERSION = '1.37';
+our $VERSION = '1.38';
 
 
 sub build_cache {
@@ -15,6 +15,7 @@ sub build_cache {
 
     our @PATHS;
     return unless @PATHS;
+    our $DEBUG;
 
     # Programs run with -T cause a "Insecure dependency in chdir while running
     # with -T switch" warning, so untaint directory names.
@@ -24,8 +25,22 @@ sub build_cache {
         untaint_skip => 1,
         wanted       => sub {
 
-        if (-d && /^t|CVS|\.svn|skel|_build$/) {
+        warn "dir [$File::Find::name]\n" if $DEBUG && -d;
+
+        if (-d && /^(t|CVS|\.svn|\.git|skel|_build)$/) {
+            warn "$File::Find::name dir will be pruned\n" if $DEBUG;
             $File::Find::prune = 1;
+            return;
+        }
+
+        if (-d && -e "$File::Find::name/INC.SKIP") {
+            warn "$File::Find::name dir contains INC.SKIP; pruned\n" if $DEBUG;
+            $File::Find::prune = 1;
+            return;
+        }
+
+        if (-d && $_ eq 'lib') {
+            push our @inc => $File::Find::name;
             return;
         }
 
@@ -37,7 +52,7 @@ sub build_cache {
         }
     }}, @PATHS);
 
-    warn "cache:\n", Dumper \%cache if our $DEBUG;
+    warn "cache:\n", Dumper \%cache if $DEBUG;
 }
 
 
@@ -103,12 +118,12 @@ __END__
 
 =head1 NAME
 
-Devel::SearchINC - loading Perl modules from their development dirs
+Devel::SearchINC - Loading Perl modules from their development directories
 
 =head1 SYNOPSIS
 
-  use Devel::SearchINC '/my/dev/dir';
-  use My::Brand::New::Module;
+  use Devel::SearchINC '/tmp';
+  # now use your new modules
 
 =head1 DESCRIPTION
 
@@ -143,11 +158,15 @@ your shell initialization file of choice):
 Tilde expansion is also performed.
 
 When this module is first run, that is, when perl first consults C<@INC>, all
-candidate files are remembered in a cache. A candidate file is one whose name
-ends in C<.pm>, is not within a directory called C<t>, C<CVS>, C<.svn>,
-C<skel> or C<_build>, and is within a directory called C<lib>,
-C<blib/lib> or C<blib/arch>. This is a long-winded way of saying that it tries
-to find your perl module files within standard development directories.
+candidate files are remembered in a cache (see C<build_cache()>). A candidate
+file is one whose name ends in C<.pm>, is not within a directory called C<t>,
+C<CVS>, C<.svn>, C<.git>, C<skel> or C<_build>, and is within a directory
+called C<lib>, C<blib/lib> or C<blib/arch>. This is a long-winded way of
+saying that it tries to find your perl module files within standard
+development directories.
+
+If a directory contains a file named C<INC.SKIP>, this directory will be
+skipped.
 
 Note that there is a small limitation for the C<PERL5OPT> approach:
 development modules can't be loaded via C<-M> on the perl command
@@ -179,6 +198,20 @@ You can also use semicolons instead of commas as delimiters for directories.
 C<perlrun> details the syntax for specifying multiple arguments for
 modules brought in with the C<-M> switch.
 
+=head1 FUNCTIONS
+
+=over 4
+
+=item C<build_cache>
+
+Called during C<import()>, this subroutine builds a cache of the modules it
+finds. This way every time a module is C<use()>d, we can just look at the
+cache. This does mean that if you add, change or delete a module during the
+run-time of a script that uses C<Devel::SearchINC>, that script won't notice
+these changes. If necessary, you could re-run C<build_cache()>.
+
+=back
+
 =head1 DEBUGGING THIS MODULE
 
 By using C<:debug> as one of the development directories, you can turn
@@ -199,7 +232,7 @@ directories.
 
 =head1 TAGS
 
-If you talk about this module in blogs, on del.icio.us or anywhere else,
+If you talk about this module in blogs, on delicious or anywhere else,
 please use the C<develsearchinc> tag.
 
 =head1 VERSION 

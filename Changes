@@ -1,5 +1,9 @@
 Revision history for Perl extension Devel-SearchINC
 
+1.38 Tue Aug  4 19:09:11 WEST 2009 (Marcel Gruenauer <marcel@cpan.org>)
+     - more output under :debug
+     - prune a directory if it contains INC.SKIP
+
 1.37  Thu Nov  6 23:09:35 CET 2008 (Marcel Gruenauer <marcel@cpan.org>)
      - caused a bug where a program running under -T caused an "Insecure
        dependency in chdir while running with -T switch" error
