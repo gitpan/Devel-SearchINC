@@ -1,0 +1,27 @@
+This is the Perl module Devel::SearchINC.
+
+## Installation
+
+Devel::SearchINC installation is straightforward. If your CPAN shell is set up,
+you should just be able to do
+
+    % cpan Devel::SearchINC
+
+Download it, unpack it, then build it as per the usual:
+
+    % perl Makefile.PL
+    % make && make test
+
+Then install it:
+
+    % make install
+
+## Documentation
+
+Devel::SearchINC documentation is available as in POD. So you can do:
+
+    % perldoc Devel::SearchINC
+
+to read the documentation online with your favorite pager.
+
+Marcel Gruenauer

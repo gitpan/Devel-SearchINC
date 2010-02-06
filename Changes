@@ -1,5 +1,9 @@
 Revision history for Perl extension Devel-SearchINC
 
+1.39 Sat 2010.02.06 14:46:06 CET (Marcel Gruenauer <marcel@cpan.org>)
+     - set broad untaint_pattern for File::Find, as that gets it wrong on OS X
+       (its pattern doesn't allow spaces in filenames)
+
 1.38 Tue Aug  4 19:09:11 WEST 2009 (Marcel Gruenauer <marcel@cpan.org>)
      - more output under :debug
      - prune a directory if it contains INC.SKIP

@@ -1,5 +1,3 @@
 package E;
-
-sub answer { 42 };
-
+sub answer { 42 }
 1;

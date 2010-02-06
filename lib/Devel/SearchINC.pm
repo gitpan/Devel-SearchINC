@@ -1,103 +1,84 @@
 package Devel::SearchINC;
-
 use 5.006;
 use strict;
 use warnings;
 use Data::Dumper;
 use File::Find;
-
-
-our $VERSION = '1.38';
-
+our $VERSION = '1.39';
 
 sub build_cache {
     our %cache;
-
     our @PATHS;
     return unless @PATHS;
     our $DEBUG;
 
     # Programs run with -T cause a "Insecure dependency in chdir while running
     # with -T switch" warning, so untaint directory names.
-
-    find({
-        untaint      => 1,
-        untaint_skip => 1,
-        wanted       => sub {
-
-        warn "dir [$File::Find::name]\n" if $DEBUG && -d;
-
-        if (-d && /^(t|CVS|\.svn|\.git|skel|_build)$/) {
-            warn "$File::Find::name dir will be pruned\n" if $DEBUG;
-            $File::Find::prune = 1;
-            return;
-        }
-
-        if (-d && -e "$File::Find::name/INC.SKIP") {
-            warn "$File::Find::name dir contains INC.SKIP; pruned\n" if $DEBUG;
-            $File::Find::prune = 1;
-            return;
-        }
-
-        if (-d && $_ eq 'lib') {
-            push our @inc => $File::Find::name;
-            return;
-        }
-
-        return unless -f && /\.pm$/;
-
-        if ($File::Find::name =~ m!.*/(?:lib|blib/(?:lib|arch))/(.*)!) {
-            $cache{$1} ||= $File::Find::name;
-
-        }
-    }}, @PATHS);
-
+    find(
+        {   untaint      => 1,
+            untaint_pattern => qr|^(.+)$|,  # File::Find gets this wrong on OS X
+            untaint_skip => 1,
+            wanted       => sub {
+                warn "dir [$File::Find::name]\n" if $DEBUG && -d;
+                if (-d && /^(t|CVS|\.svn|\.git|skel|_build)$/) {
+                    warn "$File::Find::name dir will be pruned\n" if $DEBUG;
+                    $File::Find::prune = 1;
+                    return;
+                }
+                if (-d && -e "$File::Find::name/INC.SKIP") {
+                    warn "$File::Find::name dir contains INC.SKIP; pruned\n"
+                      if $DEBUG;
+                    $File::Find::prune = 1;
+                    return;
+                }
+                if (-d && $_ eq 'lib') {
+                    push our @inc => $File::Find::name;
+                    return;
+                }
+                return unless -f && /\.pm$/;
+                if ($File::Find::name =~ m!.*/(?:lib|blib/(?:lib|arch))/(.*)!) {
+                    $cache{$1} ||= $File::Find::name;
+                }
+              }
+        },
+        @PATHS
+    );
     warn "cache:\n", Dumper \%cache if $DEBUG;
 }
-
 
 BEGIN {
     unshift @INC, sub {
         my ($self, $file) = @_;
-
         our %cache;
         our $DEBUG;
-
         unless (exists $cache{$file}) {
             printf "%s: cache miss <%s>\n", __PACKAGE__, $file
-                if $DEBUG;
+              if $DEBUG;
             return;
         }
-
         printf "%s: found <%s>\n", __PACKAGE__, $cache{$file} if $DEBUG;
-
         if (open(my $fh, '<', $cache{$file})) {
             $INC{$file} = $cache{$file};
             return $fh;
         }
-
         printf "%s: can't open <%s>, declining\n", __PACKAGE__, $cache{$file}
-            if $DEBUG;
-
+          if $DEBUG;
         return;
-    }
+      }
 }
 
 sub import {
     my $pkg = shift;
     our $DEBUG = 0;
-
-    my @p = 
-        map { s/^~/$ENV{HOME}/; $_ }
-        map { split /\s*;\s*/ }
-        @_;
-
+    my @p =
+      map { s/^~/$ENV{HOME}/; $_ }
+      map { split /\s*;\s*/ } @_;
     our @PATHS;
     for my $path (@p) {
         if ($path eq ':debug') {
             $DEBUG = 1;
             next;
-        };
+        }
         push @PATHS => $path;
     }
 
@@ -105,15 +86,10 @@ sub import {
     # use PERL5OPT=-MDevel::SearchINC=... and then a program loads it
     # separately with "use Devel::SearchINC '...'" paths from both occasions
     # get respected.
-
     build_cache();
-
     warn "paths:\n", Dumper \@PATHS if $DEBUG;
 }
-
-
 1;
-
 __END__
 
 =head1 NAME
@@ -255,7 +231,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see <http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/Devel-SearchINC/>.
 
 =head1 AUTHORS
 
@@ -263,11 +239,9 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2004-2008 by the authors.
+Copyright 2004-2009 by the authors.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-
 =cut
-
