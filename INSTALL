@@ -1,9 +1,10 @@
-This is the Perl module Devel::SearchINC.
+
+This is the Perl distribution Devel-SearchINC.
 
 ## Installation
 
-Devel::SearchINC installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+Devel-SearchINC installation is straightforward.
+If your CPAN shell is set up, you should just be able to do
 
     % cpan Devel::SearchINC
 
@@ -18,10 +19,9 @@ Then install it:
 
 ## Documentation
 
-Devel::SearchINC documentation is available as in POD. So you can do:
+Devel-SearchINC documentation is available as in POD.
+So you can do:
 
     % perldoc Devel::SearchINC
 
-to read the documentation online with your favorite pager.
-
-Marcel Gruenauer
+to read the documentation with your favorite pager.

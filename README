@@ -2,6 +2,9 @@ NAME
     Devel::SearchINC - Loading Perl modules from their development
     directories
 
+VERSION
+    version 1.100850
+
 SYNOPSIS
       use Devel::SearchINC '/tmp';
       # now use your new modules
@@ -61,6 +64,15 @@ DESCRIPTION
 
     Also, the "PERL5OPT" variable is ignored when Taint checks are enabled.
 
+FUNCTIONS
+  build_cache
+    Called during "import()", this subroutine builds a cache of the modules
+    it finds. This way every time a module is "use()"d, we can just look at
+    the cache. This does mean that if you add, change or delete a module
+    during the run-time of a script that uses "Devel::SearchINC", that
+    script won't notice these changes. If necessary, you could re-run
+    "build_cache()".
+
 MULTIPLE DEVELOPMENT DIRECTORIES
     You can have multiple development directories. Just list them when using
     this module:
@@ -76,15 +88,6 @@ MULTIPLE DEVELOPMENT DIRECTORIES
 
     "perlrun" details the syntax for specifying multiple arguments for
     modules brought in with the "-M" switch.
-
-FUNCTIONS
-    "build_cache"
-        Called during "import()", this subroutine builds a cache of the
-        modules it finds. This way every time a module is "use()"d, we can
-        just look at the cache. This does mean that if you add, change or
-        delete a module during the run-time of a script that uses
-        "Devel::SearchINC", that script won't notice these changes. If
-        necessary, you could re-run "build_cache()".
 
 DEBUGGING THIS MODULE
     By using ":debug" as one of the development directories, you can turn on
@@ -103,36 +106,33 @@ DEBUGGING THIS MODULE
     The ":debug" option can be specified anywhere in the list of development
     directories.
 
-TAGS
-    If you talk about this module in blogs, on delicious or anywhere else,
-    please use the "develsearchinc" tag.
-
-VERSION
-    This document describes version 1.33 of Devel::SearchINC.
-
-BUGS AND LIMITATIONS
-    No bugs have been reported.
-
-    Please report any bugs or feature requests to
-    "<bug-devel-searchinc@rt.cpan.org">, or through the web interface at
-    <http://rt.cpan.org>.
-
 INSTALLATION
     See perlmodinstall for information and options on installing Perl
     modules.
 
+BUGS AND LIMITATIONS
+    No bugs have been reported.
+
+    Please report any bugs or feature requests through the web interface at
+    <http://rt.cpan.org/Public/Dist/Display.html?Name=Devel-SearchINC>.
+
 AVAILABILITY
     The latest version of this module is available from the Comprehensive
     Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
-    CPAN site near you. Or see
+    CPAN site near you, or see
     <http://search.cpan.org/dist/Devel-SearchINC/>.
 
-AUTHORS
-    Marcel Grünauer, "<marcel@cpan.org>"
+    The development version lives at
+    <http://github.com/hanekomu/Devel-SearchINC/>. Instead of sending
+    patches, please fork this project using the standard git and github
+    infrastructure.
+
+AUTHOR
+      Marcel Gruenauer <marcel@cpan.org>
 
 COPYRIGHT AND LICENSE
-    Copyright 2004-2009 by the authors.
+    This software is copyright (c) 2004 by Marcel Gruenauer.
 
-    This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself.
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 

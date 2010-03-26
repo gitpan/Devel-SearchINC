@@ -1,10 +1,12 @@
-package Devel::SearchINC;
-use 5.006;
+use 5.008;
 use strict;
 use warnings;
+
+package Devel::SearchINC;
+our $VERSION = '1.100850';
+# ABSTRACT: Loading Perl modules from their development directories
 use Data::Dumper;
 use File::Find;
-our $VERSION = '1.39';
 
 sub build_cache {
     our %cache;
@@ -15,10 +17,10 @@ sub build_cache {
     # Programs run with -T cause a "Insecure dependency in chdir while running
     # with -T switch" warning, so untaint directory names.
     find(
-        {   untaint      => 1,
+        {   untaint         => 1,
             untaint_pattern => qr|^(.+)$|,  # File::Find gets this wrong on OS X
-            untaint_skip => 1,
-            wanted       => sub {
+            untaint_skip    => 1,
+            wanted          => sub {
                 warn "dir [$File::Find::name]\n" if $DEBUG && -d;
                 if (-d && /^(t|CVS|\.svn|\.git|skel|_build)$/) {
                     warn "$File::Find::name dir will be pruned\n" if $DEBUG;
@@ -90,11 +92,18 @@ sub import {
     warn "paths:\n", Dumper \@PATHS if $DEBUG;
 }
 1;
+
+
 __END__
+=pod
 
 =head1 NAME
 
 Devel::SearchINC - Loading Perl modules from their development directories
+
+=head1 VERSION
+
+version 1.100850
 
 =head1 SYNOPSIS
 
@@ -158,6 +167,16 @@ options.
 Also, the C<PERL5OPT> variable is ignored when Taint checks are
 enabled.
 
+=head1 FUNCTIONS
+
+=head2 build_cache
+
+Called during C<import()>, this subroutine builds a cache of the modules it
+finds. This way every time a module is C<use()>d, we can just look at the
+cache. This does mean that if you add, change or delete a module during the
+run-time of a script that uses C<Devel::SearchINC>, that script won't notice
+these changes. If necessary, you could re-run C<build_cache()>.
+
 =head1 MULTIPLE DEVELOPMENT DIRECTORIES
 
 You can have multiple development directories. Just list them when using
@@ -173,20 +192,6 @@ You can also use semicolons instead of commas as delimiters for directories.
 
 C<perlrun> details the syntax for specifying multiple arguments for
 modules brought in with the C<-M> switch.
-
-=head1 FUNCTIONS
-
-=over 4
-
-=item C<build_cache>
-
-Called during C<import()>, this subroutine builds a cache of the modules it
-finds. This way every time a module is C<use()>d, we can just look at the
-cache. This does mean that if you add, change or delete a module during the
-run-time of a script that uses C<Devel::SearchINC>, that script won't notice
-these changes. If necessary, you could re-run C<build_cache()>.
-
-=back
 
 =head1 DEBUGGING THIS MODULE
 
@@ -206,42 +211,39 @@ or
 The C<:debug> option can be specified anywhere in the list of development
 directories.
 
-=head1 TAGS
+=head1 INSTALLATION
 
-If you talk about this module in blogs, on delicious or anywhere else,
-please use the C<develsearchinc> tag.
-
-=head1 VERSION 
-                   
-This document describes version 1.33 of L<Devel::SearchINC>.
+See perlmodinstall for information and options on installing Perl modules.
 
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<<bug-devel-searchinc@rt.cpan.org>>, or through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
+Please report any bugs or feature requests through the web interface at
+L<http://rt.cpan.org/Public/Dist/Display.html?Name=Devel-SearchINC>.
 
 =head1 AVAILABILITY
 
 The latest version of this module is available from the Comprehensive Perl
-Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://search.cpan.org/dist/Devel-SearchINC/>.
+Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
+site near you, or see
+L<http://search.cpan.org/dist/Devel-SearchINC/>.
 
-=head1 AUTHORS
+The development version lives at
+L<http://github.com/hanekomu/Devel-SearchINC/>.
+Instead of sending patches, please fork this project using the standard git
+and github infrastructure.
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+=head1 AUTHOR
+
+  Marcel Gruenauer <marcel@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2004-2009 by the authors.
+This software is copyright (c) 2004 by Marcel Gruenauer.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
