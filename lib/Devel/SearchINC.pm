@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Devel::SearchINC;
-our $VERSION = '1.100850';
+BEGIN {
+  $Devel::SearchINC::VERSION = '1.101000';
+}
 # ABSTRACT: Loading Perl modules from their development directories
 use Data::Dumper;
 use File::Find;
@@ -70,7 +72,7 @@ BEGIN {
 }
 
 sub import {
-    my $pkg = shift;
+    shift;    # we don't need the package name
     our $DEBUG = 0;
     my @p =
       map { s/^~/$ENV{HOME}/; $_ }
@@ -103,7 +105,7 @@ Devel::SearchINC - Loading Perl modules from their development directories
 
 =head1 VERSION
 
-version 1.100850
+version 1.101000
 
 =head1 SYNOPSIS
 

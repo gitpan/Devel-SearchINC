@@ -3,7 +3,7 @@ NAME
     directories
 
 VERSION
-    version 1.100850
+    version 1.101000
 
 SYNOPSIS
       use Devel::SearchINC '/tmp';

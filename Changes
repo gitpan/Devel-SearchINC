@@ -1,5 +1,9 @@
 Revision history for Perl extension Devel-SearchINC
 
+1.101000  2010-04-10 18:35:28 Europe/Vienna
+    - added bin/distfind, adapted from the now-deprecated Dist::Joseki
+    - removed unused variables
+
 1.100850  2010-03-26 21:34:37 Europe/Vienna
     - converted the distribution to Dist::Zilla-style
 
