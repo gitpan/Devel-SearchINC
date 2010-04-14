@@ -4,6 +4,7 @@
       "Marcel Gruenauer <marcel@cpan.org>"
    ],
    "build_requires" : {
+      "Capture::Tiny" : "0",
       "Carp" : "0",
       "English" : "0",
       "File::Temp" : "0",
@@ -23,7 +24,7 @@
    "provides" : {
       "Devel::SearchINC" : {
          "file" : "lib/Devel/SearchINC.pm",
-         "version" : "1.101000"
+         "version" : "1.101040"
       }
    },
    "recommends" : {},
@@ -38,6 +39,6 @@
       "homepage" : "http://search.cpan.org/dist/Devel-SearchINC/",
       "repository" : "http://github.com/hanekomu/Devel-SearchINC"
    },
-   "version" : "1.101000"
+   "version" : "1.101040"
 }
 

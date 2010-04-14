@@ -21,6 +21,7 @@ my %WriteMakefileArgs = (
                        'BUILD_REQUIRES' => {
                                              'Test::More' => '0.94',
                                              'Scalar::Util' => '0',
+                                             'Capture::Tiny' => '0',
                                              'English' => '0',
                                              'File::Temp' => '0',
                                              'Carp' => '0'
@@ -29,7 +30,7 @@ my %WriteMakefileArgs = (
                        'EXE_FILES' => [
                                         'bin/distfind'
                                       ],
-                       'VERSION' => '1.101000',
+                       'VERSION' => '1.101040',
                        'PREREQ_PM' => {
                                         'File::Find' => '0',
                                         'Data::Dumper' => '0',

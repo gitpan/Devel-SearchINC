@@ -4,14 +4,14 @@ use warnings;
 
 package Devel::SearchINC;
 BEGIN {
-  $Devel::SearchINC::VERSION = '1.101000';
+  $Devel::SearchINC::VERSION = '1.101040';
 }
 # ABSTRACT: Loading Perl modules from their development directories
 use Data::Dumper;
 use File::Find;
 
 sub build_cache {
-    our %cache;
+    our %cache = ();
     our @PATHS;
     return unless @PATHS;
     our $DEBUG;
@@ -76,11 +76,15 @@ sub import {
     our $DEBUG = 0;
     my @p =
       map { s/^~/$ENV{HOME}/; $_ }
-      map { split /\s*;\s*/ } @_;
+      map { split /\s*[,;:]\s*/ } @_;
     our @PATHS;
     for my $path (@p) {
-        if ($path eq ':debug') {
+        if ($path eq '-debug') {
             $DEBUG = 1;
+            next;
+        }
+        if ($path eq '-clear') {
+            @PATHS = ();
             next;
         }
         push @PATHS => $path;
@@ -105,7 +109,7 @@ Devel::SearchINC - Loading Perl modules from their development directories
 
 =head1 VERSION
 
-version 1.101000
+version 1.101040
 
 =head1 SYNOPSIS
 
@@ -190,27 +194,59 @@ or
 
   perl -MDevel::SearchINC=/my/first/dir,/my/second/dir
 
-You can also use semicolons instead of commas as delimiters for directories.
+You can also use semicolons or colons instead of commas as delimiters for
+directories.
 
 C<perlrun> details the syntax for specifying multiple arguments for
 modules brought in with the C<-M> switch.
 
+=head1 SPECIAL OPTIONS
+
+In addition to development directories, there are special options that can be
+passed to this module:
+
+=over 4
+
+=item C<-debug>
+
+This turns on debugging; see below.
+
+=item C<-clear>
+
+This option clears all paths that were previously set. This is useful when you
+have a C<PERL5OPT> environment variable but want to use this module from
+within your code as well and want to override the environment setting. For
+example:
+
+    export PERL5OPT=-MDevel::SearchINC=/path/to/dev
+
+then:
+
+    #!/usr/bin/env perl
+
+    use warnings;
+    use strict;
+    use Devel::SearchINC qw(-clear /path/to/other/dir);
+    ...
+
+=back
+
 =head1 DEBUGGING THIS MODULE
 
-By using C<:debug> as one of the development directories, you can turn
+By using C<-debug> as one of the development directories, you can turn
 on debugging. Note that despite the leading colon, this has nothing to
 do with C<Exporter> semantics. With debugging activated, this module
 will print detailed information while trying to find the requested file.
 
 For example
 
-  use Devel::SearchINC qw(/my/first/dir my/second/dir :debug);
+  use Devel::SearchINC qw(/my/first/dir my/second/dir -debug);
 
 or
 
-  perl -MDevel::SearchINC=/my/first/dir,:debug,/my/second/dir
+  perl -MDevel::SearchINC=/my/first/dir,-debug,/my/second/dir
 
-The C<:debug> option can be specified anywhere in the list of development
+The C<-debug> option can be specified anywhere in the list of development
 directories.
 
 =head1 INSTALLATION

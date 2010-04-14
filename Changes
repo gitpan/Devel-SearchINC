@@ -1,5 +1,11 @@
 Revision history for Perl extension Devel-SearchINC
 
+1.101040  2010-04-14 18:10:19 Europe/Vienna
+    - the :debug option is now -debug
+    - added -clear option
+    - development directories and options can be separated by colons as well
+    - improved tests
+
 1.101000  2010-04-10 18:35:28 Europe/Vienna
     - added bin/distfind, adapted from the now-deprecated Dist::Joseki
     - removed unused variables
