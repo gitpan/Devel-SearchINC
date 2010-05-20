@@ -7,7 +7,6 @@ META.json
 META.yml
 Makefile.PL
 README
-bin/distfind
 dist.ini
 lib/Devel/SearchINC.pm
 t/00-compile.t

@@ -14,7 +14,7 @@
    "configure_requires" : {
       "ExtUtils::MakeMaker" : "6.31"
    },
-   "generated_by" : "Dist::Zilla version 2.100991",
+   "generated_by" : "Dist::Zilla version 2.100960",
    "license" : "perl",
    "meta-spec" : {
       "url" : "http://module-build.sourceforge.net/META-spec-v1.4.html",
@@ -24,14 +24,13 @@
    "provides" : {
       "Devel::SearchINC" : {
          "file" : "lib/Devel/SearchINC.pm",
-         "version" : "1.101040"
+         "version" : "1.101400"
       }
    },
    "recommends" : {},
    "requires" : {
       "Data::Dumper" : "0",
       "File::Find" : "0",
-      "Getopt::Attribute" : "0",
       "perl" : "5.008"
    },
    "resources" : {
@@ -39,6 +38,6 @@
       "homepage" : "http://search.cpan.org/dist/Devel-SearchINC/",
       "repository" : "http://github.com/hanekomu/Devel-SearchINC"
    },
-   "version" : "1.101040"
+   "version" : "1.101400"
 }
 

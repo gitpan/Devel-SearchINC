@@ -1,5 +1,8 @@
 Revision history for Perl extension Devel-SearchINC
 
+1.101400  2010-05-20 14:04:46 Europe/Vienna
+    - removed bin/distfind; now lives in its own App-distfind distribution
+
 1.101040  2010-04-14 18:10:19 Europe/Vienna
     - the :debug option is now -debug
     - added -clear option

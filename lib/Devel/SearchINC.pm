@@ -4,7 +4,7 @@ use warnings;
 
 package Devel::SearchINC;
 BEGIN {
-  $Devel::SearchINC::VERSION = '1.101040';
+  $Devel::SearchINC::VERSION = '1.101400';
 }
 # ABSTRACT: Loading Perl modules from their development directories
 use Data::Dumper;
@@ -109,7 +109,7 @@ Devel::SearchINC - Loading Perl modules from their development directories
 
 =head1 VERSION
 
-version 1.101040
+version 1.101400
 
 =head1 SYNOPSIS
 
@@ -166,9 +166,8 @@ line.  So the following won't work:
   $ export PERL5OPT=-MDevel::SearchINC=/my/dev/dir
   $ perl -MMy::Brand::New::Module -e'print "hello world\n"'
 
-This is probably because C<PERL5OPT> options are appended to the
-perl command line, and processed after the actual command line
-options.
+This is because C<PERL5OPT> options are processed after the actual command
+line options.
 
 Also, the C<PERL5OPT> variable is ignored when Taint checks are
 enabled.

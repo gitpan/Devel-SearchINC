@@ -27,14 +27,11 @@ my %WriteMakefileArgs = (
                                              'Carp' => '0'
                                            },
                        'ABSTRACT' => 'Loading Perl modules from their development directories',
-                       'EXE_FILES' => [
-                                        'bin/distfind'
-                                      ],
-                       'VERSION' => '1.101040',
+                       'EXE_FILES' => [],
+                       'VERSION' => '1.101400',
                        'PREREQ_PM' => {
                                         'File::Find' => '0',
-                                        'Data::Dumper' => '0',
-                                        'Getopt::Attribute' => '0'
+                                        'Data::Dumper' => '0'
                                       },
                        'LICENSE' => 'perl'
                      );
