@@ -20,7 +20,7 @@ name: Devel-SearchINC
 provides:
   Devel::SearchINC:
     file: lib/Devel/SearchINC.pm
-    version: 1.101400
+    version: 2.101410
 recommends: {}
 requires:
   Data::Dumper: 0
@@ -30,4 +30,4 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Devel-SearchINC
   homepage: http://search.cpan.org/dist/Devel-SearchINC/
   repository: http://github.com/hanekomu/Devel-SearchINC
-version: 1.101400
+version: 2.101410

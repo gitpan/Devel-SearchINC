@@ -28,7 +28,7 @@ my %WriteMakefileArgs = (
                                            },
                        'ABSTRACT' => 'Loading Perl modules from their development directories',
                        'EXE_FILES' => [],
-                       'VERSION' => '1.101400',
+                       'VERSION' => '2.101410',
                        'PREREQ_PM' => {
                                         'File::Find' => '0',
                                         'Data::Dumper' => '0'

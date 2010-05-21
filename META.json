@@ -24,7 +24,7 @@
    "provides" : {
       "Devel::SearchINC" : {
          "file" : "lib/Devel/SearchINC.pm",
-         "version" : "1.101400"
+         "version" : "2.101410"
       }
    },
    "recommends" : {},
@@ -38,6 +38,6 @@
       "homepage" : "http://search.cpan.org/dist/Devel-SearchINC/",
       "repository" : "http://github.com/hanekomu/Devel-SearchINC"
    },
-   "version" : "1.101400"
+   "version" : "2.101410"
 }
 

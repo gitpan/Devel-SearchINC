@@ -4,7 +4,7 @@ use warnings;
 
 package Devel::SearchINC;
 BEGIN {
-  $Devel::SearchINC::VERSION = '1.101400';
+  $Devel::SearchINC::VERSION = '2.101410';
 }
 # ABSTRACT: Loading Perl modules from their development directories
 use Data::Dumper;
@@ -109,7 +109,7 @@ Devel::SearchINC - Loading Perl modules from their development directories
 
 =head1 VERSION
 
-version 1.101400
+version 2.101410
 
 =head1 SYNOPSIS
 

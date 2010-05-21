@@ -1,5 +1,8 @@
 Revision history for Perl extension Devel-SearchINC
 
+2.101410  2010-05-21 12:40:11 Europe/Vienna
+    - set major version to 2 so version continuity on CPAN is preserved.
+
 1.101400  2010-05-20 14:04:46 Europe/Vienna
     - removed bin/distfind; now lives in its own App-distfind distribution
 
