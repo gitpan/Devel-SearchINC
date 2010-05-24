@@ -3,10 +3,10 @@ NAME
     directories
 
 VERSION
-    version 2.101410
+    version 2.101440
 
 SYNOPSIS
-      use Devel::SearchINC '/tmp';
+      # export PERL5OPT=-MDevel::SearchINC=/my/dev/dir
       # now use your new modules
 
 DESCRIPTION

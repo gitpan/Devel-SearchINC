@@ -1,10 +1,10 @@
 use strict;
 use warnings;
 use Test::More tests => 6;
+use Capture::Tiny qw(capture_merged);
 my $capture;
 
 BEGIN {
-    use Capture::Tiny qw(capture_merged);
     $capture = capture_merged {
         use_ok('Devel::SearchINC', qw(-clear t/lib -debug));
         use_ok('C::D::F');

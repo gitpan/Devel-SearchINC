@@ -1,5 +1,9 @@
 Revision history for Perl extension Devel-SearchINC
 
+2.101440  2010-05-24 20:50:20 Europe/Vienna
+    - fixed Makefile.PL's BUILD_REQUIRES handling by using latest Dist::Zilla
+    - more realistic SYNOPSIS
+
 2.101410  2010-05-21 12:40:11 Europe/Vienna
     - set major version to 2 so version continuity on CPAN is preserved.
 
