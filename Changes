@@ -1,5 +1,8 @@
 Revision history for Perl extension Devel-SearchINC
 
+2.103460  2010-12-12 12:39:39 Europe/Vienna
+    - follow symlinks
+
 2.101440  2010-05-24 20:50:20 Europe/Vienna
     - fixed Makefile.PL's BUILD_REQUIRES handling by using latest Dist::Zilla
     - more realistic SYNOPSIS

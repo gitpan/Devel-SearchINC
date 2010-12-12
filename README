@@ -3,7 +3,7 @@ NAME
     directories
 
 VERSION
-    version 2.101440
+    version 2.103460
 
 SYNOPSIS
       # export PERL5OPT=-MDevel::SearchINC=/my/dev/dir
@@ -147,12 +147,13 @@ AVAILABILITY
     <http://search.cpan.org/dist/Devel-SearchINC/>.
 
     The development version lives at
-    <http://github.com/hanekomu/Devel-SearchINC/>. Instead of sending
+    <http://github.com/hanekomu/Devel-SearchINC.git> and may be cloned from
+    <git://github.com/hanekomu/Devel-SearchINC.git>. Instead of sending
     patches, please fork this project using the standard git and github
     infrastructure.
 
 AUTHOR
-      Marcel Gruenauer <marcel@cpan.org>
+    Marcel Gruenauer <marcel@cpan.org>
 
 COPYRIGHT AND LICENSE
     This software is copyright (c) 2004 by Marcel Gruenauer.

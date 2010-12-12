@@ -4,7 +4,7 @@ use warnings;
 
 package Devel::SearchINC;
 BEGIN {
-  $Devel::SearchINC::VERSION = '2.101440';
+  $Devel::SearchINC::VERSION = '2.103460';
 }
 # ABSTRACT: Loading Perl modules from their development directories
 use Data::Dumper;
@@ -22,6 +22,7 @@ sub build_cache {
         {   untaint         => 1,
             untaint_pattern => qr|^(.+)$|,  # File::Find gets this wrong on OS X
             untaint_skip    => 1,
+            follow          => 1,
             wanted          => sub {
                 warn "dir [$File::Find::name]\n" if $DEBUG && -d;
                 if (-d && /^(t|CVS|\.svn|\.git|skel|_build)$/) {
@@ -109,7 +110,7 @@ Devel::SearchINC - Loading Perl modules from their development directories
 
 =head1 VERSION
 
-version 2.101440
+version 2.103460
 
 =head1 SYNOPSIS
 
@@ -263,17 +264,16 @@ L<http://rt.cpan.org/Public/Dist/Display.html?Name=Devel-SearchINC>.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you, or see
-L<http://search.cpan.org/dist/Devel-SearchINC/>.
+site near you, or see L<http://search.cpan.org/dist/Devel-SearchINC/>.
 
-The development version lives at
-L<http://github.com/hanekomu/Devel-SearchINC/>.
-Instead of sending patches, please fork this project using the standard git
-and github infrastructure.
+The development version lives at L<http://github.com/hanekomu/Devel-SearchINC.git>
+and may be cloned from L<git://github.com/hanekomu/Devel-SearchINC.git>.
+Instead of sending patches, please fork this project using the standard
+git and github infrastructure.
 
 =head1 AUTHOR
 
-  Marcel Gruenauer <marcel@cpan.org>
+Marcel Gruenauer <marcel@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
